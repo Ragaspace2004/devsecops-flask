@@ -45,3 +45,13 @@ repos:
     hooks:
       - id: gitleaks
         args: ["--verbose", "--config=.gitleaks.toml"]
+  # Python tests
+  - repo: local
+    hooks:
+      - id: pytest
+        name: pytest
+        entry: pytest
+        language: system
+        types: [python]
+        pass_filenames: false
+        always_run: true
