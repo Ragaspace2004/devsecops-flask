@@ -1,25 +1,25 @@
-name: Semgrep SAST
+name: Semgrep pipeline
 
 on:
   push:
-    branches: [main, dev]
+    branches: [main, dev, uat]
   pull_request:
-    branches: [main, dev]
+    branches: [main, dev, uat]
 
 jobs:
   semgrep:
     runs-on: ubuntu-latest
-    timeout-minutes: 10
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Run Semgrep
-        uses: returntocorp/semgrep-action@v1
+      - name: Setup Python
+        uses: actions/setup-python@v4
         with:
-          config: >-
-            p/python
-            p/flask
-            p/django
-            p/security-audit
+          python-version: "3.x"
+
+      - name: Install Semgrep
+        run: pip install semgrep
+
+      - name: Run Semgrep
+        run: semgrep --config auto --error
